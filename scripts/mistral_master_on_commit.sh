@@ -1,3 +1,6 @@
+GERRIT_REFSPEC=$1
+BUILD_NUMBER=$2
+
 rm -rf *.html *.xml
 rm -rf etc/tempest.conf
 rm -rf murano-tests
