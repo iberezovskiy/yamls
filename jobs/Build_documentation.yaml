@@ -1,0 +1,30 @@
+- job:
+    name: Build_documentation
+    project-type: freestyle
+    defaults: global
+    description:
+
+    scm:
+      - git:
+          url: https://github.com/stackforge/murano-docs.git
+          branches: 
+            - '**'
+          wipe-workspace: false
+          skip-tag: true
+
+    triggers:
+      - timed: 'H 10 * * *'
+      - cron: 'H/5 * * * *'
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/Build_documentation.sh"
+
+    publishers:
+      - trigger:
+          project: Documentary_check
+          threshold: SUCCESS
+      - email:
+          recipients: 'keero-all@mirantis.com, murano-all@mirantis.com, imarnat@mirantis.com, tnurlygayanov@mirantis.com'
+          notify-every-unstable-build: true

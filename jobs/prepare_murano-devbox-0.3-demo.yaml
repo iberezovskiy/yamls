@@ -1,0 +1,24 @@
+- job:
+    name: prepare_murano-devbox-0.3-demo
+    node: openstack-jenkins-slave-node
+    project-type: freestyle
+    defaults: global
+    description: "Demo lab with Murano 0.3 is available by the following address: <a href=\"http://172.18.124.225/horizon\">http://172.18.124.225/horizon</a>\
+                  \n<p>Please login to this Demo VM with the following credentials:\
+                  \n<p>Login: DemoUser\
+                  \n<p>Password: swordfish"
+
+    scm:
+      - git:
+          url: https://github.com/stackforge/murano-tests.git
+          browser: githubweb
+          browser-url: https://github.com/stackforge/murano-tests/
+          branches: 
+            - '*/master'
+          wipe-workspace: false
+          skip-tag: true
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/prepare_murano-devbox-0.3-demo.sh"

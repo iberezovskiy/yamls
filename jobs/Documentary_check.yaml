@@ -1,0 +1,24 @@
+- job:
+    name: Documentary_check
+    node: openstack-jenkins-slave-node
+    project-type: freestyle
+    defaults: global
+    description:
+
+    scm:
+      - git:
+          url: https://github.com/stackforge/murano-tests.git
+          browser: githubweb
+          browser-url: https://github.com/stackforge/murano-tests/
+          branches: 
+            - '*/master'
+          wipe-workspace: false
+          skip-tag: true
+
+    triggers:
+      - jobs: Build_documentation
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/Documentary_check.sh $WORKSPACE"
