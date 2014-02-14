@@ -1,0 +1,46 @@
+- job:
+    name: murano-dashboard-release-04-on-commit
+    node: openstack-jenkins-slave-node
+    project-type: freestyle
+    defaults: global
+    description: Selenium GRID status console is available by <a href="http://172.18.124.233:4444/grid/console"> this link </a>
+
+    scm:
+      - git:
+          url: https://github.com/stackforge/murano-tests.git
+          browser: githubweb
+          browser-url: https://github.com/stackforge/murano-tests/
+          branches: 
+            - 'master'
+          wipe-workspace: false
+          skip-tag: true
+
+    triggers:
+      - gerrit:
+          trigger-on-patchset-uploaded-event: true
+          trigger-on-draft-published-event: true
+          projects:
+            - project-compare-type: 'PLAIN'
+              project-pattern: 'stackforge/murano-dashboard'
+              branch-compare-type: 'PLAIN'
+              branch-pattern: release-0.4
+          silent: false
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/murano-dashboard-release-04-on-commit.sh $GERRIT_REFSPEC $BUILD_NUMBER"
+    publishers:
+      - archive:
+          artifacts: 'muranodashboard-tests/test_report$BUILD_NUMBER.xml'
+          allow-empty: 'true'
+      - junit:
+          results: 'muranodashboard-tests/test_report$BUILD_NUMBER.xml'
+          keep-long-stdio: false
+      - trigger:
+          project: prepare_murano-devbox-release-04-dashboard
+          threshold: FAILURE
+      - email:
+          recipients: 'tnurlygayanov@mirantis.com, akuznetsova@mirantis.com'
+          notify-every-unstable-build: true
+          send-to-individuals: true

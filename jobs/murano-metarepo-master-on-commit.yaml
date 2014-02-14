@@ -1,9 +1,9 @@
 - job:
-    name: murano-api-release-0.4-on-commit
+    name: murano-metarepo-master-on-commit
     node: TempestNode
     project-type: freestyle
     defaults: global
-    description: This is automated CI job with the full tests suite of integration tests for Murano project (tempest tests).
+    description: "This is automated CI job with the full tests suite of integration tests for Mistral project (tempest tests)."
 
     scm:
       - git:
@@ -21,15 +21,15 @@
           trigger-on-draft-published-event: true
           projects:
             - project-compare-type: 'PLAIN'
-              project-pattern: 'stackforge/murano-api'
+              project-pattern: 'stackforge/murano-repository'
               branch-compare-type: 'PLAIN'
-              branch-pattern: release-0.4
+              branch-pattern: master
           silent: false
 
     builders:
       - shell: "rm -rf yamls\
               \ngit clone https://github.com/iberezovskiy/yamls\
-              \nbash yamls/scripts/murano-api-release-0.4-on-commit.sh $GERRIT_REFSPEC $BUILD_NUMBER"
+              \nbash yamls/scripts/murano-metarepo-master-on-commit.sh $GERRIT_REFSPEC $BUILD_NUMBER"
     publishers:
       - archive:
           artifacts: 'test_report$BUILD_NUMBER.xml'
@@ -38,5 +38,5 @@
           results: 'test_report$BUILD_NUMBER.xml'
           keep-long-stdio: false
       - trigger:
-          project: prepare_murano-devbox-release-04-api
+          project: prepare_murano-devbox-master-metarepo
           threshold: FAILURE
