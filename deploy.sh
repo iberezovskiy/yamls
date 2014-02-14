@@ -1,3 +1,3 @@
 #!/bin/bash
 
-jenkins-jobs --ignore-cache --conf /etc/jenkins_jobs/jenkins_jobs.ini update $(pwd)/jobs/
+jenkins-jobs --ignore-cache --conf $(pwd)/config update $(pwd)/jobs/

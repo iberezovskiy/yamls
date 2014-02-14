@@ -1,0 +1,39 @@
+- job:
+    name: mistral_master_on_commit
+    node: TempestNode
+    project-type: freestyle
+    defaults: global
+    description: "This is automated CI job with the full tests suite of integration tests for Mistral project (tempest tests)."
+
+    scm:
+      - git:
+          url: https://github.com/Mirantis/tempest.git
+          browser: githubweb
+          browser-url: https://github.com/Mirantis/tempest/
+          branches: 
+            - '*/platform/stable/havana'
+          wipe-workspace: false
+          skip-tag: true
+
+    triggers:
+      - gerrit:
+          trigger-on-patchset-uploaded-event: true
+          trigger-on-draft-published-event: true
+          projects:
+            - project-compare-type: 'PLAIN'
+              project-pattern: 'stackforge/mistral'
+              branch-compare-type: 'PLAIN'
+              branch-pattern: master
+          silent: false
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/mistral_master_on_commit.sh"
+    publishers:
+      - archive:
+          artifacts: 'test_report$BUILD_NUMBER.xml'
+          allow-empty: 'true'
+      - junit:
+          results: 'test_report$BUILD_NUMBER.xml'
+          keep-long-stdio: false
