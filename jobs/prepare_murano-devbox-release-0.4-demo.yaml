@@ -4,10 +4,20 @@
     project-type: freestyle
     defaults: global
     description: "Demo lab with Murano 0.4 is available by the following address: <a href=\"http://172.18.124.226/horizon\">http://172.18.124.226/horizon</a>\
-\n<br>\
-\n<p>Please login to this Demo VM with the following credentials:\
-\n<p>Login: admin\
-\n<p>Password: swordfish"
+                  \n<br>\
+                  \n<p>Please login to this Demo VM with the following credentials:\
+                  \n<p>Login: admin\
+                  \n<p>Password: swordfish"
+
+    parameters:
+      - string:
+          name: user_name
+          default: 
+          description:
+      - string:
+          name: password
+          default: 
+          description:
 
     scm:
       - git:
@@ -22,4 +32,4 @@
     builders:
       - shell: "rm -rf yamls\
               \ngit clone https://github.com/iberezovskiy/yamls\
-              \nbash yamls/scripts/prepare_murano-devbox-release-0.4-demo.sh"
+              \nbash yamls/scripts/prepare_murano-devbox-release-0.4-demo.sh $user_name $password"

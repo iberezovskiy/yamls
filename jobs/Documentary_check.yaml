@@ -3,7 +3,7 @@
     node: openstack-jenkins-slave-node
     project-type: freestyle
     defaults: global
-    description:
+    description: ""
 
     scm:
       - git:
@@ -16,7 +16,10 @@
           skip-tag: true
 
     triggers:
-      - jobs: Build_documentation
+      - build-result:
+          groups:
+            - jobs: 
+                - Build_documentation
 
     builders:
       - shell: "rm -rf yamls\

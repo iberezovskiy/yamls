@@ -7,6 +7,15 @@
                   \n<p>Please login to this Demo VM with the following credentials:\
                   \n<p>Login: DemoUser\
                   \n<p>Password: swordfish"
+    parameters:
+      - string:
+          name: user_name
+          default:
+          description:
+      - string:
+          name: password
+          default:
+          description:
 
     scm:
       - git:
@@ -21,4 +30,4 @@
     builders:
       - shell: "rm -rf yamls\
               \ngit clone https://github.com/iberezovskiy/yamls\
-              \nbash yamls/scripts/prepare_murano-devbox-0.3-demo.sh"
+              \nbash yamls/scripts/prepare_murano-devbox-0.3-demo.sh $user_name $password"

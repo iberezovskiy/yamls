@@ -2,7 +2,7 @@
     name: Build_documentation
     project-type: freestyle
     defaults: global
-    description:
+    description: ""
 
     scm:
       - git:
@@ -13,8 +13,8 @@
           skip-tag: true
 
     triggers:
+      - pollscm: 'H/5 * * * *'
       - timed: 'H 10 * * *'
-      - cron: 'H/5 * * * *'
 
     builders:
       - shell: "rm -rf yamls\

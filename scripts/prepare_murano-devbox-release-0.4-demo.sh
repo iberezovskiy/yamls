@@ -1,5 +1,9 @@
-echo "
-#######################################
-This script should contain credentials.
-Need to resolve this problem.
-#######################################"
+python infra/revert_vm.py --user $1 --password $2 --tenant TestingInfra --keystone_url http://172.18.124.201:5000/v2.0/ --instance_name murano-demo-release-04 --snapshot_name devbox_ubuntu1204
+
+python infra/RabbitMQ.py -rabbitmq_url 172.18.124.203:55672 -rabbitmq_username guest -rabbitmq_password guest -username Demo04-master -password swordfish -vhostname Demo04-master
+
+sleep 40s
+ping -c 5 10.100.0.53
+
+expect infra/deploy_vm_new.sh ubuntu 10.100.0.53 172.18.124.203 release-0.4 5672 False Demo04-master
+expect infra/configure_conductor.sh ubuntu 10.100.0.53
