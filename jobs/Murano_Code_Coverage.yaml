@@ -1,0 +1,40 @@
+- job:
+    name: Murano_Code_Coverage
+    project-type: freestyle
+    defaults: global
+    description: ""
+
+    triggers:
+      - timed: 'H 1 * * *'
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/Murano_Code_Coverage.sh $WORKSPACE"
+
+    publishers:
+      - cobertura:
+          report-file: "**/coverage.xml"
+          only-stable: "false"
+          fail-no-reports: "true"
+          fail-unhealthy: "false"
+          fail-unstable: "false"
+          health-auto-update: "false"
+          stability-auto-update: "false"
+          zoom-coverage-chart: "false"
+          source-encoding: "ASCII"
+          targets:
+            - files:
+                healthy: 80
+                unhealthy: 0
+                failing: 0
+            - method:
+                healthy: 50
+                unhealthy: 0
+                failing: 0
+            - line:
+                healthy: 50
+                unhealthy: 0
+                failing: 0
+      - junit:
+          results: '**/nosetests.xml'

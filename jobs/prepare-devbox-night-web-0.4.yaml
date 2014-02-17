@@ -1,0 +1,38 @@
+- job:
+    name: prepare-devbox-night-web-0.4
+    node: openstack-jenkins-slave-node
+    project-type: freestyle
+    defaults: global
+    description: ""
+
+    parameters:
+      - string:
+          name: user_name
+          default: 
+          description:
+      - string:
+          name: password
+          default: 
+          description:
+
+    scm:
+      - git:
+          url: https://github.com/stackforge/murano-tests.git
+          browser: githubweb
+          browser-url: https://github.com/stackforge/murano-tests/
+          branches: 
+            - '*/master'
+          wipe-workspace: false
+          skip-tag: true
+
+    triggers:
+      - build-result:
+          groups:
+            - jobs:
+                - clean_trash_nightweb0.4
+                - murano-dashboard-night-job-0.4
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/prepare-devbox-night-web-0.4.sh $user_name $password"

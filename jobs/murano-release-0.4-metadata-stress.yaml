@@ -1,0 +1,28 @@
+- job:
+    name: murano-release-0.4-metadata-stress
+    node: TempestNode
+    project-type: freestyle
+    defaults: global
+    description: ""
+
+    scm:
+      - git:
+          url: https://github.com/stackforge/murano-tests.git
+          browser: githubweb
+          browser-url: https://github.com/stackforge/murano-tests/
+          branches: 
+            - '*/master'
+          wipe-workspace: false
+          skip-tag: true
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/murano-release-0.4-metadata-stress.sh $BUILD_NUMBER"
+    publishers:
+      - archive:
+          artifacts: 'rest_api_tests/load_and_performance/MetaTests/html$BUILD_NUMBER/**/*'
+          allow-empty: 'true'
+      - trigger:
+          project: prepare_murano-devbox-release-04-stress-metadata
+          threshold: FAILURE

@@ -5,7 +5,7 @@ rm -rf *.html *.xml
 rm -rf etc/tempest.conf
 rm -rf murano-tests
 git clone https://github.com/stackforge/murano-tests
-python murano-tests/infra/revert_vm.py --user tnurlygayanov --password AkvareL707! --tenant TestingInfra --keystone_url http://172.18.124.201:5000/v2.0/ --instance_name mistral-devbox-master-commit --snapshot_name mistral_devbox
+python murano-tests/infra/revert_vm.py --user $3 --password $4 --tenant TestingInfra --keystone_url http://172.18.124.201:5000/v2.0/ --instance_name mistral-devbox-master-commit --snapshot_name mistral_devbox
 
 sleep 40s
 

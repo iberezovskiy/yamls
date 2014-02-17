@@ -1,0 +1,19 @@
+- job:
+    name: clean_trash_nightweb0.4
+    node: openstack-jenkins-slave-node
+    project-type: freestyle
+    defaults: global
+    description: ""
+
+    triggers:
+      - timed: 'H 3 * * *'
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/clean_trash_nightweb0.4.sh"
+
+    publishers:
+      - trigger:
+          project: prepare-devbox-night-web-0.4
+          threshold: SUCCESS

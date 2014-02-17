@@ -1,0 +1,42 @@
+- job:
+    name: prepare-devbox-night-web-master
+    node: openstack-jenkins-slave-node
+    project-type: freestyle
+    defaults: global
+    description: ""
+
+    parameters:
+      - string:
+          name: user_name
+          default:
+          description:
+      - string:
+          name: password
+          default:
+          description:
+
+    scm:
+      - git:
+          url: https://github.com/stackforge/murano-tests.git
+          browser: githubweb
+          browser-url: https://github.com/stackforge/murano-tests/
+          branches: 
+            - '*/master'
+          wipe-workspace: false
+          skip-tag: true
+
+    triggers:
+      - build-result:
+          groups:
+            - jobs:
+                - clean_trash_nightweb-master
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/prepare-devbox-night-web-master.sh $user_name $password"
+
+    publishers:
+      - trigger:
+          project: murano-dashboard-night-job-master
+          threshold: FAILURE

@@ -1,0 +1,17 @@
+- job:
+    name: Trash_clean_job_0.4_night
+    node: TempestNode
+    project-type: freestyle
+    defaults: global
+    description: ""
+
+    triggers:
+      - build-result:
+          groups:
+            - jobs:
+                - murano_release_0.4_full_run
+
+    builders:
+      - shell: "rm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \nbash yamls/scripts/Trash_clean_job_0.4_night.sh"
