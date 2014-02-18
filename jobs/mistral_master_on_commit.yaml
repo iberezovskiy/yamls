@@ -32,7 +32,7 @@
           projects:
             - project-compare-type: 'PLAIN'
               project-pattern: 'stackforge/mistral'
-              branch-compare-type: 'PLAIN'
+              branch-compare-type: 'ANT'
               branch-pattern: master
           silent: false
 

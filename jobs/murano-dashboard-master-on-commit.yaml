@@ -22,7 +22,7 @@
           projects:
             - project-compare-type: 'PLAIN'
               project-pattern: 'stackforge/murano-dashboard'
-              branch-compare-type: 'PLAIN'
+              branch-compare-type: 'ANT'
               branch-pattern: master
           silent: false
 
@@ -43,3 +43,4 @@
       - email:
           recipients: akuznetsova@mirantis.com
           send-to-individuals: true
+          notify-every-unstable-build: false

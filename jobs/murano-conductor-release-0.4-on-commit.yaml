@@ -22,7 +22,7 @@
           projects:
             - project-compare-type: 'PLAIN'
               project-pattern: 'stackforge/murano-conductor'
-              branch-compare-type: 'PLAIN'
+              branch-compare-type: 'ANT'
               branch-pattern: release-0.4
           silent: false
 

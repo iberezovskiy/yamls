@@ -1,11 +1,10 @@
 GERRIT_REFSPEC=$1
 BUILD_NUMBER=$2
 
+git fetch https://review.openstack.org/stackforge/murano-tests refs/changes/79/73579/5 && git checkout FETCH_HEAD
 sudo ntpdate pool.ntp.org
 
 expect infra/deploy_component_new.sh ubuntu 10.100.0.57 $GERRIT_REFSPEC murano-dashboard
-
-git fetch https://review.openstack.org/stackforge/murano-tests refs/changes/79/73579/3 && git checkout FETCH_HEAD
 
 rm -rf muranodashboard-tests/screenshots
 
@@ -18,7 +17,6 @@ sed -i "s/keypair_name = default_keypair/keypair_name = murano-lb-key/" config_f
 sed -i "s/asp_git_repository = git_repo_for_asp_app/asp_git_repository = git:\/\/github.com\/Mirantis\//" config_file.conf
 
 cd ..
+rm -rf .noseids
 
-nosetests --exclude test_check_opportunity_to_select_composed_service --with-xunit --xunit-file=test_report$BUILD_NUMBER.xml sanity_check.py -s -v sanity_check.py --nologcapture
-
-#nosetests --exclude test_check_opportunity_to_select_composed_service -s -v --with-xunit --xunit-#file=test_report$BUILD_NUMBER.xml sanity_check.py --nologcapture --failed
+nosetests --exclude test_032_check_opportunity_to_toggle_service --with-xunit --xunit-file=test_report$BUILD_NUMBER.xml -s -v sanity_check.py --nologcapture --with-id|| expect ../infra/deploy_component_new.sh ubuntu 10.100.0.57 $GERRIT_REFSPEC murano-dashboard && nosetests --exclude test_032_check_opportunity_to_toggle_service --with-xunit --xunit-file=test_report$BUILD_NUMBER.xml -s -v sanity_check.py --nologcapture --failed
