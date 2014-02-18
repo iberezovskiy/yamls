@@ -10,7 +10,7 @@
       - shell: "cd $WORKSPACE\
               \nrm -rf yamls\
               \ngit clone https://github.com/iberezovskiy/yamls\
-              \njenkins-jobs update -l DEBUG yamls/jobs/"
+              \njenkins-jobs -l DEBUG update yamls/jobs/"
 
     publishers:
       - email:
