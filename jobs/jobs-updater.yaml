@@ -7,9 +7,10 @@
     block-downstream: true
 
     builders:
-      - shell: "rm -rf yamls\
-              \nsudo git clone https://github.com/iberezovskiy/yamls\
-              \nsudo jenkins-jobs update yamls/jobs/"
+      - shell: "cd $WORKSPACE\
+              \nrm -rf yamls\
+              \ngit clone https://github.com/iberezovskiy/yamls\
+              \njenkins-jobs update yamls/jobs/"
 
     publishers:
       - email:
