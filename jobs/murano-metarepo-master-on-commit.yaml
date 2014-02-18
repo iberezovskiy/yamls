@@ -22,7 +22,7 @@
           projects:
             - project-compare-type: 'PLAIN'
               project-pattern: 'stackforge/murano-repository'
-              branch-compare-type: 'PLAIN'
+              branch-compare-type: 'ANT'
               branch-pattern: master
           silent: false
 

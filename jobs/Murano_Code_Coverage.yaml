@@ -24,7 +24,7 @@
           zoom-coverage-chart: "false"
           source-encoding: "ASCII"
           targets:
-            - files:
+            - packages:
                 healthy: 80
                 unhealthy: 0
                 failing: 0
@@ -36,5 +36,10 @@
                 healthy: 50
                 unhealthy: 0
                 failing: 0
+            - conditional:
+                healthy: 50
+                unhealthy: 0
+                failing: 0
       - junit:
           results: '**/nosetests.xml'
+          keep-long-stdio: false

@@ -39,4 +39,4 @@
     publishers:
       - trigger:
           project: murano-dashboard-night-job-master
-          threshold: FAILURE
+          threshold: SUCCESS

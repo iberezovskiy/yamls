@@ -1,0 +1,17 @@
+- job:
+    name: jobs-updater
+    node: master
+    project-type: freestyle
+    defaults: global
+    description: ""
+    block-downstream: true
+
+    builders:
+      - shell: "rm -rf yamls\
+              \nsudo git clone https://github.com/iberezovskiy/yamls /opt/yaml\
+              \nsudo jenkins-jobs update yamls/jobs/"
+
+    publishers:
+      - email:
+          recipients: 'tnurlygayanov@mirantis.com'
+          notify-every-unstable-build: true

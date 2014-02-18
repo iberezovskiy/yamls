@@ -1,24 +1,33 @@
 - job:
-    name: MuranoDashboard_on_commit_parallel
+    name: murano-dashboard-night-job-0.4
     node: openstack-jenkins-slave-node
     project-type: freestyle
     defaults: global
-    description: "Selenium GRID status console is available by <a href=\"http://172.18.124.233:4444/grid/console\"> this link </a>"
+    description: ""
+    disabled: true
 
     scm:
       - git:
           url: https://github.com/stackforge/murano-tests.git
+          browser: githubweb
+          browser-url: https://github.com/stackforge/murano-tests/
           branches: 
-            - '*/master'
+            - 'master'
           wipe-workspace: false
           skip-tag: true
+
+    triggers:
+      timed: 'H 4 * * *'
 
     builders:
       - shell: "rm -rf yamls\
               \ngit clone https://github.com/iberezovskiy/yamls\
-              \nbash yamls/scripts/MuranoDashboard_on_commit_parallel.sh $WORKSPACE"
+              \nbash yamls/scripts/murano-dashboard-night-job-0.4.sh $WORKSPACE"
 
     publishers:
+      - archive:
+          artifacts: '*.png'
+          allow-empty: true
       - robot:
           output-path: ""
           unstable-threshold: '10.0'
@@ -28,7 +37,10 @@
           report-html: 'report.html'
           log-html: 'log.html'
           other-files: 
-            - "**/*.png"
+            - ""
       - email:
-          recipients: 'tnurlygayanov@mirantis.com'
-          notify-every-unstable-build: true
+          recipients: 'akuznetsova@mirantis.com'
+          notify-every-unstable-build: true 
+      - trigger:
+          project: prepare-devbox-night-web-0.4
+          threshold: SUCCESS

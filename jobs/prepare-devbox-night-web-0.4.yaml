@@ -28,7 +28,7 @@
     triggers:
       - build-result:
           groups:
-            - jobs:
+             - jobs:
                 - clean_trash_nightweb0.4
                 - murano-dashboard-night-job-0.4
 
