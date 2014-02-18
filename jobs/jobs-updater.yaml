@@ -8,10 +8,10 @@
 
     builders:
       - shell: "rm -rf yamls\
-              \nsudo git clone https://github.com/iberezovskiy/yamls /opt/yaml\
+              \nsudo git clone https://github.com/iberezovskiy/yamls\
               \nsudo jenkins-jobs update yamls/jobs/"
 
     publishers:
       - email:
-          recipients: 'tnurlygayanov@mirantis.com'
+          recipients: 'iberezovskiy@mirantis.com'
           notify-every-unstable-build: true
